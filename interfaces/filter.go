@@ -4,11 +4,9 @@ import (
 	"context"
 	"net/http"
 
+	"flamingo.me/csrf/application"
+	"flamingo.me/flamingo/v3/framework/web"
 	"github.com/pkg/errors"
-
-	"flamingo.me/flamingo/core/csrfPreventionFilter/application"
-	"flamingo.me/flamingo/framework/router"
-	"flamingo.me/flamingo/framework/web"
 )
 
 type (
@@ -23,7 +21,7 @@ func (f *CsrfFilter) Inject(r *web.Responder, s application.Service) {
 	f.service = s
 }
 
-func (f *CsrfFilter) Filter(ctx context.Context, r *web.Request, w http.ResponseWriter, chain *router.FilterChain) web.Response {
+func (f *CsrfFilter) Filter(ctx context.Context, r *web.Request, w http.ResponseWriter, chain *web.FilterChain) web.Result {
 	if !f.service.IsValid(r) {
 		return f.responder.Forbidden(errors.New("csrf_token is not valid"))
 	}

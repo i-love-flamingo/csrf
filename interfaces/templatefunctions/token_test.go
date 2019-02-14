@@ -4,10 +4,9 @@ import (
 	"context"
 	"testing"
 
-	applicationMocks "flamingo.me/flamingo/core/csrfPreventionFilter/application/mocks"
-	"flamingo.me/flamingo/framework/flamingo"
-	"flamingo.me/flamingo/framework/session"
-	"flamingo.me/flamingo/framework/web"
+	applicationMocks "flamingo.me/csrf/application/mocks"
+	"flamingo.me/flamingo/v3/framework/flamingo"
+	"flamingo.me/flamingo/v3/framework/web"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -29,8 +28,8 @@ func TestCsrfTokenFuncTestSuite(t *testing.T) {
 }
 
 func (t *CsrfTokenFuncTestSuite) SetupSuite() {
-	t.session = web.NewSession(nil)
-	t.context = session.Context(context.Background(), t.session)
+	t.session = web.EmptySession()
+	t.context = web.ContextWithSession(context.Background(), t.session)
 }
 
 func (t *CsrfTokenFuncTestSuite) SetupTest() {

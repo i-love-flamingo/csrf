@@ -4,23 +4,19 @@ import (
 	"context"
 	"testing"
 
-	applicationMocks "flamingo.me/flamingo/core/csrfPreventionFilter/application/mocks"
-	"flamingo.me/flamingo/framework/flamingo"
-	"flamingo.me/flamingo/framework/session"
-	"flamingo.me/flamingo/framework/web"
+	applicationMocks "flamingo.me/csrf/application/mocks"
+	"flamingo.me/flamingo/v3/framework/flamingo"
+	"flamingo.me/flamingo/v3/framework/web"
 	"github.com/stretchr/testify/suite"
 )
 
 type (
 	CsrfInputFuncTestSuite struct {
 		suite.Suite
-
 		csrfFunc *CsrfInputFunc
-
-		service *applicationMocks.Service
-
-		context context.Context
-		session *web.Session
+		service  *applicationMocks.Service
+		context  context.Context
+		session  *web.Session
 	}
 )
 
@@ -29,8 +25,8 @@ func TestCsrfInputFuncTestSuite(t *testing.T) {
 }
 
 func (t *CsrfInputFuncTestSuite) SetupSuite() {
-	t.session = web.NewSession(nil)
-	t.context = session.Context(context.Background(), t.session)
+	t.session = web.EmptySession()
+	t.context = web.ContextWithSession(context.Background(), t.session)
 }
 
 func (t *CsrfInputFuncTestSuite) SetupTest() {

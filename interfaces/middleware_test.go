@@ -5,11 +5,9 @@ import (
 	"net/http"
 	"testing"
 
+	applicationMocks "flamingo.me/csrf/application/mocks"
+	"flamingo.me/flamingo/v3/framework/web"
 	"github.com/stretchr/testify/suite"
-
-	applicationMocks "flamingo.me/flamingo/core/csrfPreventionFilter/application/mocks"
-	"flamingo.me/flamingo/framework/router"
-	"flamingo.me/flamingo/framework/web"
 )
 
 type (
@@ -19,7 +17,7 @@ type (
 		middleware *CsrfMiddleware
 		service    *applicationMocks.Service
 
-		action     router.Action
+		action     web.Action
 		context    context.Context
 		webRequest *web.Request
 	}
@@ -31,10 +29,10 @@ func TestCsrfMiddlewareTestSuite(t *testing.T) {
 
 func (t *CsrfMiddlewareTestSuite) SetupSuite() {
 	t.context = context.Background()
-	t.action = func(ctx context.Context, req *web.Request) web.Response {
-		return &web.BasicResponse{}
+	t.action = func(ctx context.Context, req *web.Request) web.Result {
+		return &web.Response{}
 	}
-	t.webRequest = web.RequestFromRequest(nil, nil)
+	t.webRequest = web.CreateRequest(nil, nil)
 }
 
 func (t *CsrfMiddlewareTestSuite) SetupTest() {
@@ -64,5 +62,5 @@ func (t *CsrfMiddlewareTestSuite) TestMiddleware_Success() {
 
 	handler := t.middleware.Secured(t.action)
 	response := handler(t.context, t.webRequest)
-	t.IsType(&web.BasicResponse{}, response)
+	t.IsType(&web.Response{}, response)
 }

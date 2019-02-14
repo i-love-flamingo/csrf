@@ -2,20 +2,17 @@ package application
 
 import (
 	"crypto/aes"
+	"crypto/cipher"
 	"crypto/rand"
+	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
 	"io"
+	"net/http"
 	"time"
 
-	"crypto/cipher"
-
-	"net/http"
-
-	"crypto/sha256"
-
-	"flamingo.me/flamingo/framework/flamingo"
-	"flamingo.me/flamingo/framework/web"
+	"flamingo.me/flamingo/v3/framework/flamingo"
+	"flamingo.me/flamingo/v3/framework/web"
 )
 
 const (
@@ -85,8 +82,8 @@ func (s *ServiceImpl) IsValid(request *web.Request) bool {
 		return true
 	}
 
-	formToken, ok := request.Form1(TokenName)
-	if !ok {
+	formToken, err := request.Form1(TokenName)
+	if err != nil {
 		return false
 	}
 

@@ -3,11 +3,10 @@ package interfaces
 import (
 	"testing"
 
+	applicationMocks "flamingo.me/csrf/application/mocks"
+	"flamingo.me/flamingo/v3/framework/web"
+	"flamingo.me/form/domain"
 	"github.com/stretchr/testify/suite"
-
-	applicationMocks "flamingo.me/flamingo/core/csrfPreventionFilter/application/mocks"
-	"flamingo.me/flamingo/core/form2/domain"
-	"flamingo.me/flamingo/framework/web"
 )
 
 type (
@@ -26,7 +25,7 @@ func TestCsrfFormExtensionTestSuite(t *testing.T) {
 }
 
 func (t *CsrfFormExtensionTestSuite) SetupSuite() {
-	t.webRequest = web.RequestFromRequest(nil, nil)
+	t.webRequest = web.CreateRequest(nil, nil)
 }
 
 func (t *CsrfFormExtensionTestSuite) SetupTest() {

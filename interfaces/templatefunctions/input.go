@@ -2,12 +2,11 @@ package templatefunctions
 
 import (
 	"context"
-
 	"fmt"
 
-	"flamingo.me/flamingo/core/csrfPreventionFilter/application"
-	"flamingo.me/flamingo/framework/flamingo"
-	"flamingo.me/flamingo/framework/session"
+	"flamingo.me/csrf/application"
+	"flamingo.me/flamingo/v3/framework/flamingo"
+	"flamingo.me/flamingo/v3/framework/web"
 )
 
 type (
@@ -24,8 +23,8 @@ func (f *CsrfInputFunc) Inject(s application.Service, l flamingo.Logger) {
 
 func (f *CsrfInputFunc) Func(ctx context.Context) interface{} {
 	return func() interface{} {
-		s, ok := session.FromContext(ctx)
-		if !ok {
+		s := web.SessionFromContext(ctx)
+		if s == nil {
 			f.logger.WithField("csrf", "templateFunc").Error("can't find session")
 			return ""
 		}
