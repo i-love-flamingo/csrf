@@ -16,15 +16,18 @@ import (
 )
 
 const (
+	// TokenName is used to define form parameter name.
 	TokenName = "csrftoken"
 )
 
 type (
+	// Service is interface to define usage of service responsible for creating and validation csrf token.
 	Service interface {
 		Generate(session *web.Session) string
 		IsValid(request *web.Request) bool
 	}
 
+	// ServiceImpl is actual implementation of Service interface
 	ServiceImpl struct {
 		secret []byte
 		ttl    int
@@ -38,16 +41,19 @@ type (
 	}
 )
 
+// Inject dependencies
 func (s *ServiceImpl) Inject(l flamingo.Logger, cfg *struct {
 	Secret string  `inject:"config:csrf.secret"`
-	Ttl    float64 `inject:"config:csrf.ttl"`
+	TTL    float64 `inject:"config:csrf.ttl"`
 }) {
 	hash := sha256.Sum256([]byte(cfg.Secret))
 	s.secret = hash[:]
-	s.ttl = int(cfg.Ttl)
+	s.ttl = int(cfg.TTL)
 	s.logger = l
 }
 
+// Generate creates csrf token depending on user session ID and time.
+// It uses AES standard for encrypting data.
 func (s *ServiceImpl) Generate(session *web.Session) string {
 	token := csrfToken{
 		ID:   session.ID(),
@@ -77,6 +83,9 @@ func (s *ServiceImpl) Generate(session *web.Session) string {
 	return hex.EncodeToString(cipherText)
 }
 
+// IsValid validates csrf token from POST request.
+// It uses AES standard for decrypting data.
+// Session ID from cesrf token must be the one in the request and token life time must be valid.
 func (s *ServiceImpl) IsValid(request *web.Request) bool {
 	if request.Request().Method != http.MethodPost {
 		return true

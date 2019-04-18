@@ -9,17 +9,20 @@ import (
 )
 
 type (
+	// CsrfTokenFunc delivers template function to render only csrf token value.
 	CsrfTokenFunc struct {
 		service application.Service
 		logger  flamingo.Logger
 	}
 )
 
+// Inject dependencies
 func (f *CsrfTokenFunc) Inject(s application.Service, l flamingo.Logger) {
 	f.service = s
 	f.logger = l
 }
 
+// Func delivers template function.
 func (f *CsrfTokenFunc) Func(ctx context.Context) interface{} {
 	return func() interface{} {
 		s := web.SessionFromContext(ctx)

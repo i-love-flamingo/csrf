@@ -10,17 +10,20 @@ import (
 )
 
 type (
+	// CsrfInputFunc delivers template function to render whole csrf form input.
 	CsrfInputFunc struct {
 		service application.Service
 		logger  flamingo.Logger
 	}
 )
 
+// Inject dependencies
 func (f *CsrfInputFunc) Inject(s application.Service, l flamingo.Logger) {
 	f.service = s
 	f.logger = l
 }
 
+// Func delivers template function.
 func (f *CsrfInputFunc) Func(ctx context.Context) interface{} {
 	return func() interface{} {
 		s := web.SessionFromContext(ctx)
