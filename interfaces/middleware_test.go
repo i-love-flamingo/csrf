@@ -54,7 +54,7 @@ func (t *CsrfMiddlewareTestSuite) TestMiddleware_WrongToken() {
 	response := handler(t.context, t.webRequest)
 	forbidden, ok := response.(*web.ServerErrorResponse)
 	t.True(ok)
-	t.Equal(uint(http.StatusForbidden), forbidden.Status)
+	t.Equal(uint(http.StatusForbidden), forbidden.Response.Status)
 }
 
 func (t *CsrfMiddlewareTestSuite) TestMiddleware_Success() {

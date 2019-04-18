@@ -9,15 +9,18 @@ import (
 )
 
 type (
+	// CrsfTokenFormExtension is form extension which can be used in any form FormHandler when it's required.
 	CrsfTokenFormExtension struct {
 		service application.Service
 	}
 )
 
+// Inject dependencies
 func (f *CrsfTokenFormExtension) Inject(service application.Service) {
 	f.service = service
 }
 
+// Validate performs validation of the csrf token by using csrf Service.
 func (f *CrsfTokenFormExtension) Validate(_ context.Context, req *web.Request, _ domain.ValidatorProvider, _ interface{}) (*domain.ValidationInfo, error) {
 	validationInfo := domain.ValidationInfo{}
 

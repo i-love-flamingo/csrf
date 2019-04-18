@@ -29,10 +29,10 @@ func (t *ServiceTestSuite) SetupTest() {
 	t.service = &ServiceImpl{}
 	t.service.Inject(flamingo.NullLogger{}, &struct {
 		Secret string  `inject:"config:csrf.secret"`
-		Ttl    float64 `inject:"config:csrf.ttl"`
+		TTL    float64 `inject:"config:csrf.ttl"`
 	}{
 		Secret: "6368616e676520746869732070617373776f726420746f206120736563726574",
-		Ttl:    900,
+		TTL:    900,
 	})
 
 	t.webSession = web.EmptySession()
