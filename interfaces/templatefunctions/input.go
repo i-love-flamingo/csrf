@@ -32,6 +32,6 @@ func (f *CsrfInputFunc) Func(ctx context.Context) interface{} {
 			return ""
 		}
 
-		return fmt.Sprintf(`<input type="hidden" name="%s" value="%s" />`, application.TokenName, f.service.Generate(s))
+		return fmt.Sprintf(`<input type="hidden" name="%s" value="%s" data-qa="csrfInput" />`, application.TokenName, f.service.Generate(s))
 	}
 }
