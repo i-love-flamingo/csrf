@@ -49,5 +49,5 @@ func (t *CsrfInputFuncTestSuite) TestFunc() {
 	csrfFunc, ok := function.(func() interface{})
 	t.True(ok)
 	content := csrfFunc()
-	t.Equal(`<input type="hidden" name="csrftoken" value="token" />`, content)
+	t.Equal(`<input type="hidden" name="csrftoken" value="token" data-qa="csrfInput" />`, content)
 }
