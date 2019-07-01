@@ -16,8 +16,10 @@ import (
 )
 
 const (
-	// TokenName is used to define form parameter name.
-	TokenName = "csrftoken"
+	// FormTokenName is used to define HTML form input field parameter name.
+	FormTokenName = "csrftoken"
+	// HeaderTokenName is used to define the header field name which can contain the token.
+	HeaderTokenName = "Csrf-Token"
 )
 
 type (
@@ -91,12 +93,16 @@ func (s *ServiceImpl) IsValid(request *web.Request) bool {
 		return true
 	}
 
-	formToken, err := request.Form1(TokenName)
+	requestToken, err := request.Form1(FormTokenName)
 	if err != nil {
-		return false
+		headerCsrfToken := request.Request().Header.Get(HeaderTokenName)
+		if headerCsrfToken == "" {
+			return false
+		}
+		requestToken = headerCsrfToken
 	}
 
-	data, err := hex.DecodeString(formToken)
+	data, err := hex.DecodeString(requestToken)
 	if err != nil {
 		return false
 	}

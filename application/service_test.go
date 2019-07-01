@@ -73,7 +73,7 @@ func (t *ServiceTestSuite) TestIsValid_WrongId() {
 
 	t.request.Method = http.MethodPost
 	t.request.PostForm = url.Values{
-		TokenName: []string{token},
+		FormTokenName: []string{token},
 	}
 
 	t.False(t.service.IsValid(web.CreateRequest(t.request, t.webSession)))
@@ -85,17 +85,27 @@ func (t *ServiceTestSuite) TestIsValid_WrongTime() {
 	token := t.service.Generate(t.webSession)
 	t.request.Method = http.MethodPost
 	t.request.PostForm = url.Values{
-		TokenName: []string{token},
+		FormTokenName: []string{token},
 	}
 
 	t.False(t.service.IsValid(web.CreateRequest(t.request, t.webSession)))
 }
 
-func (t *ServiceTestSuite) TestIsValid_Success() {
+func (t *ServiceTestSuite) TestIsValid_FormTokenSuccess() {
 	token := t.service.Generate(t.webSession)
 	t.request.Method = http.MethodPost
 	t.request.PostForm = url.Values{
-		TokenName: []string{token},
+		FormTokenName: []string{token},
+	}
+
+	t.True(t.service.IsValid(web.CreateRequest(t.request, t.webSession)))
+}
+
+func (t *ServiceTestSuite) TestIsValid_HeaderTokenSuccess() {
+	token := t.service.Generate(t.webSession)
+	t.request.Method = http.MethodPost
+	t.request.Header = http.Header{
+		HeaderTokenName: []string{token},
 	}
 
 	t.True(t.service.IsValid(web.CreateRequest(t.request, t.webSession)))
