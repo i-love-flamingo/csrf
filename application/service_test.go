@@ -56,47 +56,77 @@ func (t *ServiceTestSuite) TestGenerate_RightKey() {
 	t.NotEmpty(t.service.Generate(t.webSession))
 }
 
-func (t *ServiceTestSuite) TestIsValid_GetRequest() {
+func (t *ServiceTestSuite) TestIsValidPost_GetRequest() {
 	t.request.Method = http.MethodGet
-	t.True(t.service.IsValid(web.CreateRequest(t.request, t.webSession)))
+	t.True(t.service.IsValidPost(web.CreateRequest(t.request, t.webSession)))
 }
 
-func (t *ServiceTestSuite) TestIsValid_MalformedToken() {
+func (t *ServiceTestSuite) TestIsValidPost_MalformedToken() {
 	t.request.Method = http.MethodPost
-	t.False(t.service.IsValid(web.CreateRequest(t.request, t.webSession)))
+	t.False(t.service.IsValidPost(web.CreateRequest(t.request, t.webSession)))
 }
 
-func (t *ServiceTestSuite) TestIsValid_WrongId() {
+func (t *ServiceTestSuite) TestIsValidPost_WrongId() {
 	t.T().Skip("no session id changes possible right now")
 
 	token := t.service.Generate(t.webSession)
 
 	t.request.Method = http.MethodPost
 	t.request.PostForm = url.Values{
-		TokenName: []string{token},
+		FormTokenName: []string{token},
 	}
 
-	t.False(t.service.IsValid(web.CreateRequest(t.request, t.webSession)))
+	t.False(t.service.IsValidPost(web.CreateRequest(t.request, t.webSession)))
 }
 
-func (t *ServiceTestSuite) TestIsValid_WrongTime() {
+func (t *ServiceTestSuite) TestIsValidPost_WrongTime() {
 	t.service.ttl = -100000000
 
 	token := t.service.Generate(t.webSession)
 	t.request.Method = http.MethodPost
 	t.request.PostForm = url.Values{
-		TokenName: []string{token},
+		FormTokenName: []string{token},
 	}
 
-	t.False(t.service.IsValid(web.CreateRequest(t.request, t.webSession)))
+	t.False(t.service.IsValidPost(web.CreateRequest(t.request, t.webSession)))
 }
 
-func (t *ServiceTestSuite) TestIsValid_Success() {
+func (t *ServiceTestSuite) TestIsValidPost_Success() {
 	token := t.service.Generate(t.webSession)
 	t.request.Method = http.MethodPost
 	t.request.PostForm = url.Values{
-		TokenName: []string{token},
+		FormTokenName: []string{token},
 	}
 
-	t.True(t.service.IsValid(web.CreateRequest(t.request, t.webSession)))
+	t.True(t.service.IsValidPost(web.CreateRequest(t.request, t.webSession)))
+}
+
+func (t *ServiceTestSuite) TestIsValidHeader_NoToken() {
+	t.service.Generate(t.webSession)
+	t.request.Method = http.MethodGet
+	t.False(t.service.IsValidHeader(web.CreateRequest(t.request, t.webSession)))
+}
+
+func (t *ServiceTestSuite) TestIsValidHeader_EmptyToken() {
+	t.service.Generate(t.webSession)
+	t.request.Header = map[string][]string{}
+	t.request.Header.Set(HeaderTokenName, "")
+
+	t.False(t.service.IsValidHeader(web.CreateRequest(t.request, t.webSession)))
+}
+
+func (t *ServiceTestSuite) TestIsValidHeader_BadToken() {
+	t.service.Generate(t.webSession)
+	t.request.Header = map[string][]string{}
+	t.request.Header.Set(HeaderTokenName, "a88f88e883")
+
+	t.False(t.service.IsValidHeader(web.CreateRequest(t.request, t.webSession)))
+}
+
+func (t *ServiceTestSuite) TestIsValidHeader_Success() {
+	token := t.service.Generate(t.webSession)
+	t.request.Header = map[string][]string{}
+	t.request.Header.Set(HeaderTokenName, token)
+
+	t.True(t.service.IsValidHeader(web.CreateRequest(t.request, t.webSession)))
 }
