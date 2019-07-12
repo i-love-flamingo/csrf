@@ -115,7 +115,7 @@ func (s *ServiceImpl) IsValidHeader(request *web.Request) bool {
 	return s.isValidToken(headerCsrfToken, request)
 }
 
-// Deprecated - use IsVaildPost instead. IsValid validates csrf token from POST request.
+// IsValid validates csrf token from POST request. Deprecated - use IsVaildPost instead.
 // It uses AES standard for decrypting data.
 // Session ID from csrf token must be the one in the request and token life time must be valid.
 func (s *ServiceImpl) IsValid(request *web.Request) bool {

@@ -33,7 +33,7 @@ func (m *CsrfMiddleware) Secured(action web.Action) web.Action {
 	}
 }
 
-// Secured validates csrf token from header field by using csrf Service if controller action is wrapped with this middleware.
+// SecuredHeader validates csrf token from header field by using csrf Service if controller action is wrapped with this middleware.
 func (m *CsrfMiddleware) SecuredHeader(action web.Action) web.Action {
 	return func(ctx context.Context, r *web.Request) web.Result {
 		if !m.service.IsValidHeader(r) {
