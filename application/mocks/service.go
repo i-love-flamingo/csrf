@@ -37,3 +37,31 @@ func (_m *Service) IsValid(request *web.Request) bool {
 
 	return r0
 }
+
+// IsValidHeader provides a mock function with given fields: request
+func (_m *Service) IsValidHeader(request *web.Request) bool {
+	ret := _m.Called(request)
+
+	var r0 bool
+	if rf, ok := ret.Get(0).(func(*web.Request) bool); ok {
+		r0 = rf(request)
+	} else {
+		r0 = ret.Get(0).(bool)
+	}
+
+	return r0
+}
+
+// IsValidPost provides a mock function with given fields: request
+func (_m *Service) IsValidPost(request *web.Request) bool {
+	ret := _m.Called(request)
+
+	var r0 bool
+	if rf, ok := ret.Get(0).(func(*web.Request) bool); ok {
+		r0 = rf(request)
+	} else {
+		r0 = ret.Get(0).(bool)
+	}
+
+	return r0
+}

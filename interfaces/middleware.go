@@ -25,7 +25,18 @@ func (m *CsrfMiddleware) Inject(r *web.Responder, s application.Service) {
 // Secured validates csrf token by using csrf Service if controller action is wrapped with this middleware.
 func (m *CsrfMiddleware) Secured(action web.Action) web.Action {
 	return func(ctx context.Context, r *web.Request) web.Result {
-		if !m.service.IsValid(r) {
+		if !m.service.IsValidPost(r) {
+			return m.responder.Forbidden(errors.New("csrf_token is not valid"))
+		}
+
+		return action(ctx, r)
+	}
+}
+
+// SecuredHeader validates csrf token from header field by using csrf Service if controller action is wrapped with this middleware.
+func (m *CsrfMiddleware) SecuredHeader(action web.Action) web.Action {
+	return func(ctx context.Context, r *web.Request) web.Result {
+		if !m.service.IsValidHeader(r) {
 			return m.responder.Forbidden(errors.New("csrf_token is not valid"))
 		}
 

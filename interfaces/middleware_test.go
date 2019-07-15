@@ -48,7 +48,7 @@ func (t *CsrfMiddlewareTestSuite) TearDown() {
 }
 
 func (t *CsrfMiddlewareTestSuite) TestMiddleware_WrongToken() {
-	t.service.On("IsValid", t.webRequest).Return(false).Once()
+	t.service.On("IsValidPost", t.webRequest).Return(false).Once()
 
 	handler := t.middleware.Secured(t.action)
 	response := handler(t.context, t.webRequest)
@@ -58,9 +58,28 @@ func (t *CsrfMiddlewareTestSuite) TestMiddleware_WrongToken() {
 }
 
 func (t *CsrfMiddlewareTestSuite) TestMiddleware_Success() {
-	t.service.On("IsValid", t.webRequest).Return(true).Once()
+	t.service.On("IsValidPost", t.webRequest).Return(true).Once()
 
 	handler := t.middleware.Secured(t.action)
+	response := handler(t.context, t.webRequest)
+	t.IsType(&web.Response{}, response)
+}
+
+
+func (t *CsrfMiddlewareTestSuite) TestMiddleware_HeaderWrongToken() {
+	t.service.On("IsValidHeader", t.webRequest).Return(false).Once()
+
+	handler := t.middleware.SecuredHeader(t.action)
+	response := handler(t.context, t.webRequest)
+	forbidden, ok := response.(*web.ServerErrorResponse)
+	t.True(ok)
+	t.Equal(uint(http.StatusForbidden), forbidden.Response.Status)
+}
+
+func (t *CsrfMiddlewareTestSuite) TestMiddleware_HeaderSuccess() {
+	t.service.On("IsValidHeader", t.webRequest).Return(true).Once()
+
+	handler := t.middleware.SecuredHeader(t.action)
 	response := handler(t.context, t.webRequest)
 	t.IsType(&web.Response{}, response)
 }

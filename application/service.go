@@ -16,8 +16,10 @@ import (
 )
 
 const (
-	// TokenName is used to define form parameter name.
-	TokenName = "csrftoken"
+	// FormTokenName is used to define HTML input field parameter name.
+	FormTokenName = "csrftoken"
+	// HeaderTokenName is used to define the header field name which can contain the token.
+	HeaderTokenName = "Csrf-Token"
 )
 
 type (
@@ -25,6 +27,8 @@ type (
 	Service interface {
 		Generate(session *web.Session) string
 		IsValid(request *web.Request) bool
+		IsValidPost(request *web.Request) bool
+		IsValidHeader(request *web.Request) bool
 	}
 
 	// ServiceImpl is actual implementation of Service interface
@@ -83,20 +87,43 @@ func (s *ServiceImpl) Generate(session *web.Session) string {
 	return hex.EncodeToString(cipherText)
 }
 
-// IsValid validates csrf token from POST request.
+// IsValidPost validates csrf token from POST request.
 // It uses AES standard for decrypting data.
-// Session ID from cesrf token must be the one in the request and token life time must be valid.
-func (s *ServiceImpl) IsValid(request *web.Request) bool {
+// Session ID from csrf token must be the one in the request and token life time must be valid.
+func (s *ServiceImpl) IsValidPost(request *web.Request) bool {
 	if request.Request().Method != http.MethodPost {
 		return true
 	}
 
-	formToken, err := request.Form1(TokenName)
+	formToken, err := request.Form1(FormTokenName)
 	if err != nil {
 		return false
 	}
 
-	data, err := hex.DecodeString(formToken)
+	return s.isValidToken(formToken, request)
+}
+
+// IsValidHeader validates csrf token in request header field.
+// It uses AES standard for decrypting data.
+// Session ID from csrf token must be the one in the request and token life time must be valid.
+func (s *ServiceImpl) IsValidHeader(request *web.Request) bool {
+	headerCsrfToken := request.Request().Header.Get(HeaderTokenName)
+	if headerCsrfToken == "" {
+		return false
+	}
+
+	return s.isValidToken(headerCsrfToken, request)
+}
+
+// IsValid validates csrf token from POST request. Deprecated - use IsVaildPost instead.
+// It uses AES standard for decrypting data.
+// Session ID from csrf token must be the one in the request and token life time must be valid.
+func (s *ServiceImpl) IsValid(request *web.Request) bool {
+	return s.IsValidPost(request)
+}
+
+func (s *ServiceImpl) isValidToken(inputToken string, request *web.Request) bool {
+	data, err := hex.DecodeString(inputToken)
 	if err != nil {
 		return false
 	}
