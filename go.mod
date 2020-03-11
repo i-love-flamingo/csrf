@@ -1,5 +1,7 @@
 module flamingo.me/csrf
 
+go 1.14
+
 require (
 	flamingo.me/dingo v0.1.6
 	flamingo.me/flamingo/v3 v3.0.1
