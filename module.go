@@ -22,7 +22,7 @@ func (m *Module) Configure(injector *dingo.Injector) {
 	flamingo.BindTemplateFunc(injector, "csrfToken", new(templatefunctions.CsrfTokenFunc))
 	flamingo.BindTemplateFunc(injector, "csrfInput", new(templatefunctions.CsrfInputFunc))
 
-	injector.BindMap((*domain.FormExtension)(nil), "formExtension.csrfToken").To(interfaces.CrsfTokenFormExtension{})
+	injector.BindMap((*domain.FormExtension)(nil), "formExtension.csrfToken").To(interfaces.CsrfTokenFormExtension{})
 
 	if m.All {
 		injector.BindMulti((*web.Filter)(nil)).To(interfaces.CsrfFilter{})

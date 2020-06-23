@@ -13,7 +13,7 @@ type (
 	CsrfFormExtensionTestSuite struct {
 		suite.Suite
 
-		formExtension *CrsfTokenFormExtension
+		formExtension *CsrfTokenFormExtension
 		service       *applicationMocks.Service
 
 		webRequest *web.Request
@@ -31,7 +31,7 @@ func (t *CsrfFormExtensionTestSuite) SetupSuite() {
 func (t *CsrfFormExtensionTestSuite) SetupTest() {
 	t.service = &applicationMocks.Service{}
 
-	t.formExtension = &CrsfTokenFormExtension{}
+	t.formExtension = &CsrfTokenFormExtension{}
 	t.formExtension.Inject(t.service)
 }
 
@@ -49,8 +49,8 @@ func (t *CsrfFormExtensionTestSuite) TestValidate_WrongToken() {
 	t.True(validationInfo.HasGeneralErrors())
 	t.Equal([]domain.Error{
 		{
-			MessageKey:   "formError.crsfToken.invalid",
-			DefaultLabel: "Invalid crsf token.",
+			MessageKey:   "formError.csrfToken.invalid",
+			DefaultLabel: "Invalid csrf token.",
 		},
 	}, validationInfo.GetGeneralErrors())
 }
