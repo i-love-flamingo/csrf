@@ -5,7 +5,7 @@ go 1.19
 require (
 	flamingo.me/dingo v0.2.10
 	flamingo.me/flamingo/v3 v3.6.1
-	flamingo.me/form v1.0.0
+	flamingo.me/form v1.1.1
 	github.com/stretchr/testify v1.8.1
 )
 
@@ -22,8 +22,8 @@ require (
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-kit/log v0.2.1 // indirect
 	github.com/go-logfmt/logfmt v0.5.1 // indirect
-	github.com/go-playground/locales v0.12.1 // indirect
-	github.com/go-playground/universal-translator v0.16.0 // indirect
+	github.com/go-playground/locales v0.13.0 // indirect
+	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
@@ -55,7 +55,7 @@ require (
 	golang.org/x/xerrors v0.0.0-20220609144429-65e65417b02f // indirect
 	google.golang.org/api v0.84.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
-	gopkg.in/go-playground/validator.v9 v9.27.0 // indirect
+	gopkg.in/go-playground/validator.v9 v9.31.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
