@@ -2,13 +2,14 @@ package interfaces_test
 
 import (
 	"context"
-	"flamingo.me/csrf/interfaces"
 	"net/http"
 	"testing"
 
-	applicationMocks "flamingo.me/csrf/application/mocks"
 	"flamingo.me/flamingo/v3/framework/web"
 	"github.com/stretchr/testify/suite"
+
+	applicationMocks "flamingo.me/csrf/application/mocks"
+	"flamingo.me/csrf/interfaces"
 )
 
 type (

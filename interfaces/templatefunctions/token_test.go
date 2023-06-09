@@ -2,13 +2,14 @@ package templatefunctions_test
 
 import (
 	"context"
-	"flamingo.me/csrf/interfaces/templatefunctions"
 	"testing"
 
-	applicationMocks "flamingo.me/csrf/application/mocks"
 	"flamingo.me/flamingo/v3/framework/flamingo"
 	"flamingo.me/flamingo/v3/framework/web"
 	"github.com/stretchr/testify/suite"
+
+	applicationMocks "flamingo.me/csrf/application/mocks"
+	"flamingo.me/csrf/interfaces/templatefunctions"
 )
 
 type (
