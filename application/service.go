@@ -77,14 +77,14 @@ func (s *ServiceImpl) Generate(session *web.Session) string {
 		return ""
 	}
 
-	nonce := make([]byte, 0, gcm.NonceSize())
+	nonce := make([]byte, gcm.NonceSize())
 	if _, err := io.ReadFull(rand.Reader, nonce); err != nil {
 		s.logger.WithField("csrf", "nonceGenerate").Error(err.Error())
 		return ""
 	}
 
 	cipherText := gcm.Seal(nil, nonce, body, nil)
-	cipherText = append(nonce, cipherText...)
+	cipherText = append(nonce, cipherText...) //nolint:makezero // nonce size is a placeholder in the beginning
 
 	return hex.EncodeToString(cipherText)
 }
