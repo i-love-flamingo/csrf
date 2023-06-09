@@ -3,9 +3,9 @@ package interfaces
 import (
 	"context"
 
-	"flamingo.me/csrf/application"
 	"flamingo.me/flamingo/v3/framework/web"
-	"github.com/pkg/errors"
+
+	"flamingo.me/csrf/application"
 )
 
 type (
@@ -26,7 +26,7 @@ func (m *CsrfMiddleware) Inject(r *web.Responder, s application.Service) {
 func (m *CsrfMiddleware) Secured(action web.Action) web.Action {
 	return func(ctx context.Context, r *web.Request) web.Result {
 		if !m.service.IsValidPost(r) {
-			return m.responder.Forbidden(errors.New("csrf_token is not valid"))
+			return m.responder.Forbidden(ErrInvalidToken)
 		}
 
 		return action(ctx, r)
@@ -37,7 +37,7 @@ func (m *CsrfMiddleware) Secured(action web.Action) web.Action {
 func (m *CsrfMiddleware) SecuredHeader(action web.Action) web.Action {
 	return func(ctx context.Context, r *web.Request) web.Result {
 		if !m.service.IsValidHeader(r) {
-			return m.responder.Forbidden(errors.New("csrf_token is not valid"))
+			return m.responder.Forbidden(ErrInvalidToken)
 		}
 
 		return action(ctx, r)
