@@ -1,6 +1,8 @@
-package interfaces
+package interfaces_test
 
 import (
+	"context"
+	"flamingo.me/csrf/interfaces"
 	"testing"
 
 	applicationMocks "flamingo.me/csrf/application/mocks"
@@ -13,7 +15,7 @@ type (
 	CsrfFormExtensionTestSuite struct {
 		suite.Suite
 
-		formExtension *CsrfTokenFormExtension
+		formExtension *interfaces.CsrfTokenFormExtension
 		service       *applicationMocks.Service
 
 		webRequest *web.Request
@@ -21,6 +23,8 @@ type (
 )
 
 func TestCsrfFormExtensionTestSuite(t *testing.T) {
+	t.Parallel()
+
 	suite.Run(t, &CsrfFormExtensionTestSuite{})
 }
 
@@ -31,7 +35,7 @@ func (t *CsrfFormExtensionTestSuite) SetupSuite() {
 func (t *CsrfFormExtensionTestSuite) SetupTest() {
 	t.service = &applicationMocks.Service{}
 
-	t.formExtension = &CsrfTokenFormExtension{}
+	t.formExtension = &interfaces.CsrfTokenFormExtension{}
 	t.formExtension.Inject(t.service)
 }
 
@@ -41,9 +45,9 @@ func (t *CsrfFormExtensionTestSuite) TearDown() {
 }
 
 func (t *CsrfFormExtensionTestSuite) TestValidate_WrongToken() {
-	t.service.On("IsValid", t.webRequest).Return(false).Once()
+	t.service.EXPECT().IsValid(t.webRequest).Return(false).Once()
 
-	validationInfo, err := t.formExtension.Validate(nil, t.webRequest, nil, nil)
+	validationInfo, err := t.formExtension.Validate(context.Background(), t.webRequest, nil, nil)
 
 	t.NoError(err)
 	t.True(validationInfo.HasGeneralErrors())
@@ -56,9 +60,9 @@ func (t *CsrfFormExtensionTestSuite) TestValidate_WrongToken() {
 }
 
 func (t *CsrfFormExtensionTestSuite) TestFilter_Success() {
-	t.service.On("IsValid", t.webRequest).Return(true).Once()
+	t.service.EXPECT().IsValid(t.webRequest).Return(true).Once()
 
-	validationInfo, err := t.formExtension.Validate(nil, t.webRequest, nil, nil)
+	validationInfo, err := t.formExtension.Validate(context.Background(), t.webRequest, nil, nil)
 
 	t.NoError(err)
 	t.False(validationInfo.HasGeneralErrors())

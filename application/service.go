@@ -7,6 +7,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"time"
@@ -19,7 +20,7 @@ const (
 	// FormTokenName is used to define HTML input field parameter name.
 	FormTokenName = "csrftoken"
 	// HeaderTokenName is used to define the header field name which can contain the token.
-	HeaderTokenName = "Csrf-Token"
+	HeaderTokenName = "Csrf-Token" //nolint:gosec // false positive
 )
 
 type (
@@ -76,7 +77,7 @@ func (s *ServiceImpl) Generate(session *web.Session) string {
 		return ""
 	}
 
-	nonce := make([]byte, gcm.NonceSize())
+	nonce := make([]byte, 0, gcm.NonceSize())
 	if _, err := io.ReadFull(rand.Reader, nonce); err != nil {
 		s.logger.WithField("csrf", "nonceGenerate").Error(err.Error())
 		return ""
@@ -84,6 +85,7 @@ func (s *ServiceImpl) Generate(session *web.Session) string {
 
 	cipherText := gcm.Seal(nil, nonce, body, nil)
 	cipherText = append(nonce, cipherText...)
+
 	return hex.EncodeToString(cipherText)
 }
 
@@ -140,12 +142,14 @@ func (s *ServiceImpl) isValidToken(inputToken string, request *web.Request) bool
 
 	nonce := data[:nonceSize]
 	cipherText := data[nonceSize:]
+
 	plainText, err := gcm.Open(nil, nonce, cipherText, nil)
 	if err != nil {
 		return false
 	}
 
 	var token csrfToken
+
 	err = json.Unmarshal(plainText, &token)
 	if err != nil {
 		return false
@@ -165,12 +169,12 @@ func (s *ServiceImpl) isValidToken(inputToken string, request *web.Request) bool
 func (s *ServiceImpl) getGcm() (cipher.AEAD, error) {
 	block, err := aes.NewCipher(s.secret)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("creaton of cipher block from configured secret csrf.secret failed: %w", err)
 	}
 
 	gcm, err := cipher.NewGCM(block)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("creation of gcm failed: %w", err)
 	}
 
 	return gcm, nil

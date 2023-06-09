@@ -1,7 +1,8 @@
-package templatefunctions
+package templatefunctions_test
 
 import (
 	"context"
+	"flamingo.me/csrf/interfaces/templatefunctions"
 	"testing"
 
 	applicationMocks "flamingo.me/csrf/application/mocks"
@@ -13,7 +14,7 @@ import (
 type (
 	CsrfInputFuncTestSuite struct {
 		suite.Suite
-		csrfFunc *CsrfInputFunc
+		csrfFunc *templatefunctions.CsrfInputFunc
 		service  *applicationMocks.Service
 		context  context.Context
 		session  *web.Session
@@ -21,6 +22,8 @@ type (
 )
 
 func TestCsrfInputFuncTestSuite(t *testing.T) {
+	t.Parallel()
+
 	suite.Run(t, &CsrfInputFuncTestSuite{})
 }
 
@@ -32,7 +35,7 @@ func (t *CsrfInputFuncTestSuite) SetupSuite() {
 func (t *CsrfInputFuncTestSuite) SetupTest() {
 	t.service = &applicationMocks.Service{}
 
-	t.csrfFunc = &CsrfInputFunc{}
+	t.csrfFunc = &templatefunctions.CsrfInputFunc{}
 	t.csrfFunc.Inject(t.service, flamingo.NullLogger{})
 }
 
@@ -43,11 +46,12 @@ func (t *CsrfInputFuncTestSuite) TearDown() {
 }
 
 func (t *CsrfInputFuncTestSuite) TestFunc() {
-	t.service.On("Generate", t.session).Return("token").Once()
+	t.service.EXPECT().Generate(t.session).Return("token").Once()
 
 	function := t.csrfFunc.Func(t.context)
 	csrfFunc, ok := function.(func() interface{})
 	t.True(ok)
+
 	content := csrfFunc()
 	t.Equal(`<input type="hidden" name="csrftoken" value="token" data-qa="csrfInput" />`, content)
 }

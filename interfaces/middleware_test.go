@@ -1,7 +1,8 @@
-package interfaces
+package interfaces_test
 
 import (
 	"context"
+	"flamingo.me/csrf/interfaces"
 	"net/http"
 	"testing"
 
@@ -14,7 +15,7 @@ type (
 	CsrfMiddlewareTestSuite struct {
 		suite.Suite
 
-		middleware *CsrfMiddleware
+		middleware *interfaces.CsrfMiddleware
 		service    *applicationMocks.Service
 
 		action     web.Action
@@ -24,6 +25,8 @@ type (
 )
 
 func TestCsrfMiddlewareTestSuite(t *testing.T) {
+	t.Parallel()
+
 	suite.Run(t, &CsrfMiddlewareTestSuite{})
 }
 
@@ -38,7 +41,7 @@ func (t *CsrfMiddlewareTestSuite) SetupSuite() {
 func (t *CsrfMiddlewareTestSuite) SetupTest() {
 	t.service = &applicationMocks.Service{}
 
-	t.middleware = &CsrfMiddleware{}
+	t.middleware = &interfaces.CsrfMiddleware{}
 	t.middleware.Inject(&web.Responder{}, t.service)
 }
 
@@ -48,7 +51,7 @@ func (t *CsrfMiddlewareTestSuite) TearDown() {
 }
 
 func (t *CsrfMiddlewareTestSuite) TestMiddleware_WrongToken() {
-	t.service.On("IsValidPost", t.webRequest).Return(false).Once()
+	t.service.EXPECT().IsValidPost(t.webRequest).Return(false).Once()
 
 	handler := t.middleware.Secured(t.action)
 	response := handler(t.context, t.webRequest)
@@ -58,16 +61,15 @@ func (t *CsrfMiddlewareTestSuite) TestMiddleware_WrongToken() {
 }
 
 func (t *CsrfMiddlewareTestSuite) TestMiddleware_Success() {
-	t.service.On("IsValidPost", t.webRequest).Return(true).Once()
+	t.service.EXPECT().IsValidPost(t.webRequest).Return(true).Once()
 
 	handler := t.middleware.Secured(t.action)
 	response := handler(t.context, t.webRequest)
 	t.IsType(&web.Response{}, response)
 }
 
-
 func (t *CsrfMiddlewareTestSuite) TestMiddleware_HeaderWrongToken() {
-	t.service.On("IsValidHeader", t.webRequest).Return(false).Once()
+	t.service.EXPECT().IsValidHeader(t.webRequest).Return(false).Once()
 
 	handler := t.middleware.SecuredHeader(t.action)
 	response := handler(t.context, t.webRequest)
@@ -77,7 +79,7 @@ func (t *CsrfMiddlewareTestSuite) TestMiddleware_HeaderWrongToken() {
 }
 
 func (t *CsrfMiddlewareTestSuite) TestMiddleware_HeaderSuccess() {
-	t.service.On("IsValidHeader", t.webRequest).Return(true).Once()
+	t.service.EXPECT().IsValidHeader(t.webRequest).Return(true).Once()
 
 	handler := t.middleware.SecuredHeader(t.action)
 	response := handler(t.context, t.webRequest)

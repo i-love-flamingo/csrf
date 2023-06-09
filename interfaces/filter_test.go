@@ -1,7 +1,8 @@
-package interfaces
+package interfaces_test
 
 import (
 	"context"
+	"flamingo.me/csrf/interfaces"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -15,7 +16,7 @@ type (
 	CsrfFilterTestSuite struct {
 		suite.Suite
 
-		filter      *CsrfFilter
+		filter      *interfaces.CsrfFilter
 		service     *applicationMocks.Service
 		nextFilter  *MockFilter
 		filterChain *web.FilterChain
@@ -28,11 +29,13 @@ type (
 	MockFilter struct{}
 )
 
-func (fnc MockFilter) Filter(ctx context.Context, r *web.Request, w http.ResponseWriter, chain *web.FilterChain) web.Result {
+func (fnc MockFilter) Filter(context.Context, *web.Request, http.ResponseWriter, *web.FilterChain) web.Result {
 	return &web.Response{}
 }
 
 func TestCsrfFilterTestSuite(t *testing.T) {
+	t.Parallel()
+
 	suite.Run(t, &CsrfFilterTestSuite{})
 }
 
@@ -45,7 +48,7 @@ func (t *CsrfFilterTestSuite) SetupSuite() {
 func (t *CsrfFilterTestSuite) SetupTest() {
 	t.service = &applicationMocks.Service{}
 
-	t.filter = &CsrfFilter{}
+	t.filter = &interfaces.CsrfFilter{}
 	t.filter.Inject(&web.Responder{}, t.service)
 
 	t.nextFilter = &MockFilter{}
@@ -58,7 +61,7 @@ func (t *CsrfFilterTestSuite) TearDown() {
 }
 
 func (t *CsrfFilterTestSuite) TestFilter_WrongToken() {
-	t.service.On("IsValid", t.webRequest).Return(false).Once()
+	t.service.EXPECT().IsValid(t.webRequest).Return(false).Once()
 
 	response := t.filter.Filter(t.context, t.webRequest, t.responseWriter, t.filterChain)
 	forbidden, ok := response.(*web.ServerErrorResponse)
@@ -67,7 +70,7 @@ func (t *CsrfFilterTestSuite) TestFilter_WrongToken() {
 }
 
 func (t *CsrfFilterTestSuite) TestFilter_Success() {
-	t.service.On("IsValid", t.webRequest).Return(true).Once()
+	t.service.EXPECT().IsValid(t.webRequest).Return(true).Once()
 
 	response := t.filter.Filter(t.context, t.webRequest, t.responseWriter, t.filterChain)
 	t.IsType(&web.Response{}, response)

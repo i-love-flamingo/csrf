@@ -11,6 +11,8 @@ import (
 	"flamingo.me/form/domain"
 )
 
+const csrfTTL = 900.0
+
 // Module for core/csrfPreventionFilter
 type Module struct {
 	All bool `inject:"config:csrf.all"`
@@ -34,6 +36,6 @@ func (m *Module) DefaultConfig() config.Map {
 	return config.Map{
 		"csrf.all":    false,
 		"csrf.secret": "somethingSuperSecret",
-		"csrf.ttl":    900.0,
+		"csrf.ttl":    csrfTTL,
 	}
 }
