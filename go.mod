@@ -3,11 +3,11 @@ module flamingo.me/csrf
 go 1.19
 
 require (
-	flamingo.me/dingo v0.1.6
+	flamingo.me/dingo v0.2.10
 	flamingo.me/flamingo/v3 v3.0.1
 	flamingo.me/form v1.0.0
 	github.com/pkg/errors v0.8.1
-	github.com/stretchr/testify v1.4.0
+	github.com/stretchr/testify v1.8.1
 )
 
 require (
@@ -36,7 +36,7 @@ require (
 	github.com/prometheus/procfs v0.0.0-20190209105433-f8d8b3f739bd // indirect
 	github.com/spf13/cobra v0.0.3 // indirect
 	github.com/spf13/pflag v1.0.3 // indirect
-	github.com/stretchr/objx v0.2.0 // indirect
+	github.com/stretchr/objx v0.5.0 // indirect
 	github.com/zemirco/memorystore v0.0.0-20160308183530-ecd57e5134f6 // indirect
 	go.opencensus.io v0.20.2 // indirect
 	golang.org/x/sync v0.0.0-20190227155943-e225da77a7e6 // indirect
@@ -44,4 +44,5 @@ require (
 	google.golang.org/api v0.3.1 // indirect
 	gopkg.in/go-playground/validator.v9 v9.27.0 // indirect
 	gopkg.in/yaml.v2 v2.2.2 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
