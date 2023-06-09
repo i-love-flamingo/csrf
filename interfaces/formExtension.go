@@ -30,4 +30,3 @@ func (f *CsrfTokenFormExtension) Validate(_ context.Context, req *web.Request, _
 
 	return &validationInfo, nil
 }
-

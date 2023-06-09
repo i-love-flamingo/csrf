@@ -1,4 +1,4 @@
-package application
+package application //nolint:testpackage // testing of internal behavior
 
 import (
 	"net/http"
@@ -22,6 +22,8 @@ type (
 )
 
 func TestServiceTestSuite(t *testing.T) {
+	t.Parallel()
+
 	suite.Run(t, &ServiceTestSuite{})
 }
 

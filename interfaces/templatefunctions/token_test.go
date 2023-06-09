@@ -1,20 +1,22 @@
-package templatefunctions
+package templatefunctions_test
 
 import (
 	"context"
 	"testing"
 
-	applicationMocks "flamingo.me/csrf/application/mocks"
 	"flamingo.me/flamingo/v3/framework/flamingo"
 	"flamingo.me/flamingo/v3/framework/web"
 	"github.com/stretchr/testify/suite"
+
+	applicationMocks "flamingo.me/csrf/application/mocks"
+	"flamingo.me/csrf/interfaces/templatefunctions"
 )
 
 type (
 	CsrfTokenFuncTestSuite struct {
 		suite.Suite
 
-		csrfFunc *CsrfTokenFunc
+		csrfFunc *templatefunctions.CsrfTokenFunc
 
 		service *applicationMocks.Service
 
@@ -24,6 +26,8 @@ type (
 )
 
 func TestCsrfTokenFuncTestSuite(t *testing.T) {
+	t.Parallel()
+
 	suite.Run(t, &CsrfTokenFuncTestSuite{})
 }
 
@@ -35,7 +39,7 @@ func (t *CsrfTokenFuncTestSuite) SetupSuite() {
 func (t *CsrfTokenFuncTestSuite) SetupTest() {
 	t.service = &applicationMocks.Service{}
 
-	t.csrfFunc = &CsrfTokenFunc{}
+	t.csrfFunc = &templatefunctions.CsrfTokenFunc{}
 	t.csrfFunc.Inject(t.service, flamingo.NullLogger{})
 }
 
@@ -46,11 +50,12 @@ func (t *CsrfTokenFuncTestSuite) TearDown() {
 }
 
 func (t *CsrfTokenFuncTestSuite) TestFunc() {
-	t.service.On("Generate", t.session).Return("token").Once()
+	t.service.EXPECT().Generate(t.session).Return("token").Once()
 
 	function := t.csrfFunc.Func(t.context)
 	csrfFunc, ok := function.(func() interface{})
 	t.True(ok)
+
 	content := csrfFunc()
 	t.Equal("token", content)
 }
