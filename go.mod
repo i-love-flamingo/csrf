@@ -6,7 +6,7 @@ require (
 	flamingo.me/dingo v0.2.10
 	flamingo.me/flamingo/v3 v3.7.0
 	flamingo.me/form v1.1.1
-	github.com/stretchr/testify v1.8.4
+	github.com/stretchr/testify v1.9.0
 )
 
 require (
@@ -44,7 +44,7 @@ require (
 	github.com/redis/go-redis/v9 v9.0.5 // indirect
 	github.com/spf13/cobra v1.7.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/stretchr/objx v0.5.0 // indirect
+	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/uber/jaeger-client-go v2.25.0+incompatible // indirect
 	github.com/zemirco/memorystore v0.0.0-20160308183530-ecd57e5134f6 // indirect
 	go.opencensus.io v0.24.0 // indirect
