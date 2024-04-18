@@ -1,5 +1,14 @@
 # Changelog
 
+## Version v1.1.2 (2024-04-18)
+
+### Chores and tidying
+
+- **deps:** update golangci/golangci-lint-action action to v4 (#25) (41acf825)
+- **deps:** update actions/setup-go action to v5 (#22) (b5e8050b)
+- **deps:** update actions/checkout action to v4 (#20) (854e5f8a)
+- **deps:** update module flamingo.me/flamingo/v3 to v3.7.0 (#18) (c75b290d)
+
 ## Version v1.1.1 (2023-06-09)
 
 ### Chores and tidying
