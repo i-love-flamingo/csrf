@@ -3,11 +3,8 @@ run:
   concurrency: 4
   timeout: 5m
   tests: true
-  # vendor$, third_party$, testdata$, examples$, Godeps$, builtin$
-  skip-dirs-use-default: true
   modules-download-mode: readonly
   allow-parallel-runners: false
-  go: '1.19'
 
 # output configuration options
 output:
@@ -19,7 +16,8 @@ output:
   # Example: "checkstyle:report.json,colored-line-number"
   #
   # Default: colored-line-number
-  format: colored-line-number
+  formats:
+    - format: colored-line-number
   print-issued-lines: true
   print-linter-name: true
   uniq-by-line: true
@@ -32,21 +30,21 @@ linters:
     - bodyclose
     - containedctx
     - contextcheck
+    - copyloopvar
     - cyclop
     - durationcheck
+    - err113
     - errcheck
     - errname
     - errorlint
     - exhaustive
-    - exportloopref
     - forbidigo
     - forcetypeassert
     - gocognit
     - goconst
     - gocritic
-    - goerr113
     - gofmt
-    - gomnd
+    - mnd
     - gomoddirectives
     - gosec
     - gosimple
@@ -89,12 +87,12 @@ issues:
         - containedctx
         - forcetypeassert
         - goconst
-        - goerr113
+        - err113
         - varnamelen
         - wrapcheck
 
 linters-settings:
-  gomnd:
+  mnd:
     ignored-functions:
       - context.WithTimeout
   nolintlint:
