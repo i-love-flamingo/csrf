@@ -1,5 +1,13 @@
 # Changelog
 
+## Version v1.1.3 (2024-10-31)
+
+### Chores and tidying
+
+- **deps:** update actions/checkout digest to 11bd719 (#32) (85ba24b2)
+- **deps:** update actions/checkout digest to eef6144 (#30) (6e7f65d9)
+- **deps:** update module github.com/vektra/mockery/v2 to v2.46.3 (#17) (630678e6)
+
 ## Version v1.1.2 (2024-10-02)
 
 ### Chores and tidying
