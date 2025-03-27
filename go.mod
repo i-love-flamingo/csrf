@@ -6,7 +6,7 @@ require (
 	flamingo.me/dingo v0.2.10
 	flamingo.me/flamingo/v3 v3.11.0
 	flamingo.me/form v1.1.2
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 )
 
 require (
