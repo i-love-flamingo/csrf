@@ -4,8 +4,10 @@ import (
 	"flamingo.me/csrf/application"
 	"flamingo.me/csrf/interfaces"
 	"flamingo.me/csrf/interfaces/templatefunctions"
+
+	"fmt"
+
 	"flamingo.me/dingo"
-	"flamingo.me/flamingo/v3/framework/config"
 	"flamingo.me/flamingo/v3/framework/flamingo"
 	"flamingo.me/flamingo/v3/framework/web"
 	"flamingo.me/form/domain"
@@ -31,11 +33,14 @@ func (m *Module) Configure(injector *dingo.Injector) {
 	}
 }
 
-// DefaultConfig for this module
-func (m *Module) DefaultConfig() config.Map {
-	return config.Map{
-		"csrf.all":    false,
-		"csrf.secret": "somethingSuperSecret",
-		"csrf.ttl":    csrfTTL,
-	}
+// CueConfig for the module
+func (m *Module) CueConfig() string {
+	// language=cue
+	return fmt.Sprintf(`
+csrf: {
+	all: bool | *false
+	secret: string | *"somethingSuperSecret"
+	ttl: number | *%f
+}
+`, csrfTTL)
 }
