@@ -1,5 +1,20 @@
 # Changelog
 
+## Version v1.1.3 (2025-06-04)
+
+### Chores and tidying
+
+- **deps:** update go version (#45) (7315eb11)
+- **config:** migrate config renovate.json (#44) (289b5fd3)
+- **deps:** update module flamingo.me/form to v1.1.3 (#37) (a6de2b10)
+- **deps:** update module flamingo.me/flamingo/v3 to v3.14.0 (#36) (72c3c8be)
+- **deps:** update module github.com/vektra/mockery/v2 to v3 (#43) (3d69a7a5)
+- migrate to cue config (#42) (767962f1)
+- migrate golangci-lint to v2 (#41) (c82ffb81)
+- **deps:** update actions/checkout digest to 11bd719 (#32) (85ba24b2)
+- **deps:** update actions/checkout digest to eef6144 (#30) (6e7f65d9)
+- **deps:** update module github.com/vektra/mockery/v2 to v2.46.3 (#17) (630678e6)
+
 ## Version v1.1.2 (2024-10-02)
 
 ### Chores and tidying
