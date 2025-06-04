@@ -1,5 +1,0 @@
-inpackage: false
-testonly: false
-with-expecter: true
-keeptree: false
-disable-version-string: true

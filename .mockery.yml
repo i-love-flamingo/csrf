@@ -1,0 +1,9 @@
+dir: '{{.InterfaceDirRelative}}/mocks'
+structname: '{{.InterfaceName}}'
+filename: "{{.InterfaceName | snakecase}}.go"
+pkgname: mocks
+template: testify
+packages:
+  flamingo.me/csrf/application:
+    interfaces:
+      Service: {}
