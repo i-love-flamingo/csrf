@@ -8,7 +8,7 @@ require (
 	flamingo.me/dingo v0.3.0
 	flamingo.me/flamingo/v3 v3.14.0
 	flamingo.me/form v1.1.3
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 )
 
 require (
