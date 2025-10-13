@@ -2,7 +2,7 @@ module flamingo.me/csrf
 
 go 1.23.7
 
-toolchain go1.24.3
+toolchain go1.25.3
 
 require (
 	flamingo.me/dingo v0.3.0
