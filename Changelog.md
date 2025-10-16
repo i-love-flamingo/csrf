@@ -1,5 +1,14 @@
 # Changelog
 
+## Version v1.1.4 (2025-10-16)
+
+### Chores and tidying
+
+- **deps:** update dependency go to v1.25.3 (#46) (1adbd3f8)
+- **deps:** update actions/setup-go action to v6 (#52) (6dea3b1f)
+- **deps:** update module flamingo.me/flamingo/v3 to v3.17.0 (#48) (cce9209e)
+- **deps:** update actions/checkout action to v5 (#50) (dbc6a198)
+
 ## Version v1.1.3 (2025-06-04)
 
 ### Chores and tidying
