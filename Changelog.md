@@ -1,5 +1,11 @@
 # Changelog
 
+## Version v1.1.5 (2025-11-13)
+
+### Chores and tidying
+
+- **deps:** update golangci/golangci-lint-action action to v9 (#55) (9cd1b909)
+
 ## Version v1.1.4 (2025-10-16)
 
 ### Chores and tidying
