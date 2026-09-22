@@ -4,6 +4,7 @@
     "config:recommended",
     ":semanticCommitTypeAll(chore)"
   ],
+  "rebaseWhen": "behind-base-branch",
   "customManagers": [
     {
       "customType": "regex",
