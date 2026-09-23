@@ -1,11 +1,11 @@
 module flamingo.me/csrf
 
-go 1.24.0
+go 1.25.8
 
 toolchain go1.27.1
 
 require (
-	flamingo.me/dingo v0.3.0
+	flamingo.me/dingo v0.4.1
 	flamingo.me/flamingo/v3 v3.17.0
 	flamingo.me/form v1.1.3
 	github.com/stretchr/testify v1.12.1
@@ -87,6 +87,7 @@ require (
 	golang.org/x/text v0.28.0 // indirect
 	golang.org/x/tools v0.36.0 // indirect
 	golang.org/x/xerrors v0.0.0-20231012003039-104605ab7028 // indirect
+	gonum.org/v1/gonum v0.17.0 // indirect
 	google.golang.org/api v0.152.0 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
