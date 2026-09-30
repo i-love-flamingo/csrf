@@ -60,7 +60,7 @@ type Service_Generate_Call struct {
 
 // Generate is a helper method to define mock.On call
 //   - session *web.Session
-func (_e *Service_Expecter) Generate(session interface{}) *Service_Generate_Call {
+func (_e *Service_Expecter) Generate(session any) *Service_Generate_Call {
 	return &Service_Generate_Call{Call: _e.mock.On("Generate", session)}
 }
 
@@ -111,7 +111,7 @@ type Service_IsValid_Call struct {
 
 // IsValid is a helper method to define mock.On call
 //   - request *web.Request
-func (_e *Service_Expecter) IsValid(request interface{}) *Service_IsValid_Call {
+func (_e *Service_Expecter) IsValid(request any) *Service_IsValid_Call {
 	return &Service_IsValid_Call{Call: _e.mock.On("IsValid", request)}
 }
 
@@ -162,7 +162,7 @@ type Service_IsValidHeader_Call struct {
 
 // IsValidHeader is a helper method to define mock.On call
 //   - request *web.Request
-func (_e *Service_Expecter) IsValidHeader(request interface{}) *Service_IsValidHeader_Call {
+func (_e *Service_Expecter) IsValidHeader(request any) *Service_IsValidHeader_Call {
 	return &Service_IsValidHeader_Call{Call: _e.mock.On("IsValidHeader", request)}
 }
 
@@ -213,7 +213,7 @@ type Service_IsValidPost_Call struct {
 
 // IsValidPost is a helper method to define mock.On call
 //   - request *web.Request
-func (_e *Service_Expecter) IsValidPost(request interface{}) *Service_IsValidPost_Call {
+func (_e *Service_Expecter) IsValidPost(request any) *Service_IsValidPost_Call {
 	return &Service_IsValidPost_Call{Call: _e.mock.On("IsValidPost", request)}
 }
 
