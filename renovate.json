@@ -4,6 +4,7 @@
     "config:recommended",
     ":semanticCommitTypeAll(chore)"
   ],
+  "constraintsFiltering": "strict",
   "customManagers": [
     {
       "customType": "regex",
