@@ -1,5 +1,11 @@
 # Changelog
 
+## Version v1.1.6 (2026-11-12)
+
+### Fixes
+
+- **deps:** bump mockery to v3.9.1 (#76) (ce0c4c62)
+
 ## Version v1.1.5 (2026-10-03)
 
 ### Chores and tidying
