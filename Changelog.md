@@ -1,5 +1,19 @@
 # Changelog
 
+## Version v1.1.6 (2026-11-15)
+
+### Fixes
+
+- **deps:** bump mockery to v3.9.1 (#76) (ce0c4c62)
+
+### Ops and CI/CD
+
+- keep renovate PRs rebased on master (#68) (9fd56589)
+
+### Chores and tidying
+
+- **deps:** update dependency golangci/golangci-lint to v2.15.0 (#74) (faf086c6)
+
 ## Version v1.1.5 (2026-10-03)
 
 ### Chores and tidying
